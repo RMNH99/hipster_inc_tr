@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Customer Console</h5>
                     @if (Auth::guard('customer')->check())
-                        <a href="{{ route('admin.home') }}" class="btn btn-primary">Dashboard </a>
+                        <a href="{{ route('customer.home') }}" class="btn btn-primary">Dashboard </a>
                     @else
                         <a href="{{ route('customer.login') }}" class="btn btn-primary"> Go to Login </a>
                     @endif

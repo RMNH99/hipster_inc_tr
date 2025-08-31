@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HIPSTER INC TR - {{$PageTitle}}</title>
-    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-</head>
-
-<body>
+@extends('Layouts.loginLayout')
+@section('content')
 <div class="w-100">
   <div class="w-25 mt-5" style="margin: 0 auto;">
 <form method="post" action="{{route('customer.login.auth')}}">
@@ -34,12 +24,8 @@
     <label class="form-check-label" for="exampleCheck1">Remember Me</label>
   </div>
   <button type="submit" class="btn btn-primary mt-3 w-100 text-center">Login</button>
+  <p class="mt-3">Alredy Registered? <a href="{{route('customer.register')}}">Click Here</a></p>
 </form>
   </div>
 </div>
-
-        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('assets/js/popper.min.js') }}"></script>
-</body>
-
-</html>
+@endsection

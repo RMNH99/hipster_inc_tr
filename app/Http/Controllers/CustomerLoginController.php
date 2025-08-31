@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Model\Customers;
 
 class CustomerLoginController extends Controller
 {
@@ -27,6 +29,30 @@ class CustomerLoginController extends Controller
         }
 
         return back()->withErrors(['email' => 'invalid Credentials']);
+    }
+
+    public function register_view()
+    {
+        $PageTitle = 'Customer Registration';
+        return view('Customer.Auth.register',compact('PageTitle'));
+    } 
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:customers,email',
+            'password' => 'required'
+        ]);
+
+
+        $admin = new Customer;
+        $admin->name = $request->name;
+        $admin->email = $request->email;
+        $admin->password = Hash::make($request->password);
+        $admin->save();
+
+        return back()->with('success','Successfully Registered');
     }
     
     public function logout()
