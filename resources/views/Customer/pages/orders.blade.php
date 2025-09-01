@@ -19,7 +19,7 @@
             <tr>
                <td>{{$i++}}</td>
                <td>#{{$o->id}}</td>
-               <td id="status">
+               <td id="status-{{$o->id}}">
                 @if($o->status == "Pending") 
         <span class="text-secondary">Pending</span>
         @elseif($o->status == "Shipped")

@@ -21,7 +21,7 @@
                <td>{{$i++}}</td>
                <td>{{$o->customer->name}}</td>
                <td>#{{$o->id}}</td>
-               <td id="status">
+               <td id="status-{{$o->id}}">
                 @if($o->status == "Pending") 
                 <span class="text-secondary">Pending</span>
                 @elseif($o->status == "Shipped")
@@ -86,7 +86,7 @@ $(document).ready(function(){
                     html = `<span class="text-success">Delivered</span>`;
                 }
             
-                $('#status').html(html);
+                $('#status-' + orderId).html(html);
             },
             error: function(err) {
                  toastr.error('Something went wrong!', 'Error');

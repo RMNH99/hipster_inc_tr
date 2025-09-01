@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\PresenceService;
-use App\Model\Customers;
+use App\Models\Customer;
 
 class CustomerLoginController extends Controller
 {
@@ -66,7 +66,7 @@ class CustomerLoginController extends Controller
         $customer = Auth::guard('customer')->user();
 
     if($customer) {
-        
+
         PresenceService::updatePresence($customer, false);
     }
 

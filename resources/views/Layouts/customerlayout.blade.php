@@ -113,7 +113,7 @@ $(document).ready(function() {
                     html = `<span class="text-success">Delivered</span>`;
                 }
             
-                $('#status').html(html);
+                $('#status-'+data.order_id).html(html);
     });
 
 </script>

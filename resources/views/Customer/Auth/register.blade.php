@@ -2,7 +2,7 @@
 @section('content')
 <div class="w-100">
   <div class="w-25 mt-5" style="margin: 0 auto;">
-<form method="post" action="{{route('admin.register.auth')}}">
+<form method="post" action="{{route('customer.register.auth')}}">
     @csrf
   <div class="mt-5 text-center">
   <h1>

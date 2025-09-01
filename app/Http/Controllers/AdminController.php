@@ -29,14 +29,14 @@ class AdminController extends Controller
     
     public function orders()
     {
-        $orders = Order::where('customer_id', Auth::id())->with('products')->latest()->paginate(10);
+        $orders = Order::with('products')->latest()->paginate(10);
         $PageTitle = 'Orders';
         return view('admin.pages.orders',compact('orders','PageTitle'));
     }
     public function complete_orders()
     {
         $PageTitle = 'Complted Orders';
-        $orders = Order::where('customer_id', Auth::id())->where('status', 'Delivered')->with('products')->latest()->paginate(10);
+        $orders = Order::where('status', 'Delivered')->with('products')->latest()->paginate(10);
         return view('admin.pages.orders',compact('PageTitle','orders'));
     }
 
