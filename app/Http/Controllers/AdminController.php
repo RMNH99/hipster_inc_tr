@@ -36,7 +36,8 @@ class AdminController extends Controller
     public function complete_orders()
     {
         $PageTitle = 'Complted Orders';
-        return view('admin.pages.orders',compact('PageTitle'));
+        $orders = Order::where('customer_id', Auth::id())->where('status', 'Delivered')->with('products')->latest()->paginate(10);
+        return view('admin.pages.orders',compact('PageTitle','orders'));
     }
 
     public function add_product()
@@ -53,7 +54,7 @@ class AdminController extends Controller
             'category' => 'required',
             'price' => 'required',
             'stock' => 'required',
-            'prodImg' => 'required|image|mimes:jpeg,png,jpg',
+            'prodImg' => 'required',
         ]);
         $img = 'products/default_image.png';
         if($request->hasFile('prodImg'))
