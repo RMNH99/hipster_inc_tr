@@ -5,7 +5,7 @@ Setup Instructions
 Clone Repository:
        git clone https://github.com/RMNH99/hipster_inc_tr.git
 
-        cd hipster_inc_tr
+cd hipster_inc_tr
 
 Install Dependencies:
    composer install
@@ -18,6 +18,8 @@ Environment Setup:
 Run Migrations:
 
    php artisan migrate
+
+   php artisan db:seed
    
 Start Development Server:
 
