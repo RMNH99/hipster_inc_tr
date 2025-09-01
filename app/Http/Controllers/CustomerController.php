@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Support\Facades\Auth;
+use App\Events\SucceessNotification;
 
 class CustomerController extends Controller
 {
@@ -143,7 +144,7 @@ class CustomerController extends Controller
         $order->save();
 
         Cart::where('customer_id', Auth::id())->delete();
-
+            event(new SucceessNotification("New Order Receieved!"));
         return redirect()->route('customer.order', $order->id)
             ->with('success', 'Order placed successfully!');
     }

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Jobs\ProductImportJob;
 use App\Events\StatusUpdate;
+use App\Notifications\OrderStatusNotify;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;

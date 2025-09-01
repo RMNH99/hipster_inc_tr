@@ -35,6 +35,12 @@ $count = 0;
          if($count != 0){
             [$name, $description, $price, $image, $category, $stock] = $row;
 
+            $name = !empty($name) ? $name : null;
+            $description = !empty($description) ? $description : null;
+            $price = !empty($price) ? $price : 0;
+            $category = !empty($category) ? $category : 'Uncategorized';
+            $stock = !empty($stock) ? $stock : 0;
+
             $chunk[] =[
                 'name' => $name,
                 'description' => $description,
