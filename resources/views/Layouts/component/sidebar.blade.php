@@ -7,4 +7,9 @@
         <a href="{{route('admin.orders')}}" class="list-group-item list-group-action  @if(request()->routeIs('admin.orders')) active @endif">Orders</a>
         <a href="{{route('admin.complete_orders')}}" class="list-group-item list-group-action @if(request()->routeIs('admin.complete_orders')) active @endif">Completed Orders</a>
     </div>
+
+    <div class="mt-3"><b>Online Users/Admins</b></div>
+    <div class="mt-3" >
+        <ul id="online-users"></ul>
+    </div>
 </div>

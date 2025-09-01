@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\PresenceService;
 use App\Models\Admin;
 
 class AdminLoginController extends Controller
@@ -25,6 +26,11 @@ class AdminLoginController extends Controller
         );
 
         if(Auth::guard('admin')->attempt($request->only('email','password'), $request->filled('remember'))){
+
+            $admin = Auth::guard('admin')->user();
+
+                PresenceService::updatePresence($admin, true);
+
             return redirect()->route('admin.home')->with('success','Successfully Logged-In');
         }
 
@@ -56,7 +62,13 @@ class AdminLoginController extends Controller
 
     public function logout()
     {
-        Auth::guard('admin')->logout();
+        $admin = Auth::guard('admin')->user();
+
+            if($admin) {
+                PresenceService::updatePresence($admin, false);
+            }
+
+            Auth::guard('admin')->logout();
         return redirect()->route('admin.login')->with('success','Successfully logout!');
     }
 }

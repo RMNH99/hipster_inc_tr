@@ -11,6 +11,7 @@
                 <input type="text" name="product_search" placeholder="Search Here" value="{{request('product_search')}}" class="form-control">&nbsp;
                 <button type="submit" class="btn btn-secondary">Search</button>
             </form>
+            <span style="text-decoration:none; color: white" id="online-users"></span>
             <a href="{{route('customer.logout')}}" class="float-right" style="text-decoration:none; color: white">Logout</a>
     </div>
 </nav>

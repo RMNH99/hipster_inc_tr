@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\PresenceService;
 use App\Model\Customers;
 
 class CustomerLoginController extends Controller
@@ -25,6 +26,11 @@ class CustomerLoginController extends Controller
         );
 
         if(Auth::guard('customer')->attempt($request->only('email','password'), $request->filled('remember'))){
+
+            $customer = Auth::guard('customer')->user();
+
+            PresenceService::updatePresence($customer, true);
+
             return redirect()->route('customer.home')->with('success','Successfully Logged-In');
         }
 
@@ -57,7 +63,14 @@ class CustomerLoginController extends Controller
     
     public function logout()
     {
-        Auth::guard('customer')->logout();
+        $customer = Auth::guard('customer')->user();
+
+    if($customer) {
+        
+        PresenceService::updatePresence($customer, false);
+    }
+
+    Auth::guard('customer')->logout();
         return redirect()->route('customer.login')->with('success','Successfully logout!');
     }
 }

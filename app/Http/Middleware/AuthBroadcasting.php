@@ -17,10 +17,16 @@ class AuthBroadcasting
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('customer')->check() || Auth::guard('admin')->check()) {
+        if (Auth::guard('admin')->check()) {
+            Auth::shouldUse('admin');
             return $next($request);
         }
 
-        abort(403);
+        if (Auth::guard('customer')->check()) {
+            Auth::shouldUse('customer'); 
+            return $next($request);
+}
+
+        abort(403, 'Unauthorized');
     }
 }

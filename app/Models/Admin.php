@@ -18,4 +18,9 @@ class Admin extends Authenticable
     ];
 
     protected $hidden = ['password','remember_token'];
+
+    public function presence()
+    {
+        return $this->morphOne(Presences::class, 'user');
+    }
 }

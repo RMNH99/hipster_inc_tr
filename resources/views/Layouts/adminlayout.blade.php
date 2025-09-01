@@ -37,6 +37,7 @@
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
     <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.0/dist/echo.iife.js"></script>
 
     @stack('script')
 
@@ -80,5 +81,58 @@
 
         
     </script>
+    <script>
+    Pusher.logToConsole = true;
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: '{{ env("PUSHER_APP_KEY") }}',
+        cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+        forceTLS: true,
+        authEndpoint: '/broadcasting/auth',
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            }
+        }
+    });
+</script>
+<script>
+    const onlineList = document.getElementById('online-users');
+    Echo.join('presence-users')
+        .here(users => {
+            renderUsers(users);
+        })
+        .joining(user => {
+            addUser(user);
+        })
+        .leaving(user => {
+            removeUser(user);
+        });
+
+    function renderUsers(users) {
+        onlineList.innerHTML = '';
+        users.forEach(user => {
+            const li = document.createElement('li');
+            li.id = `user-${user.id}`;
+            li.textContent = `${user.name} (${user.type})`;
+            onlineList.appendChild(li);
+        });
+    }
+
+    function addUser(user) {
+        const li = document.createElement('li');
+        li.id = `user-${user.id}`;
+        li.textContent = `${user.name} (${user.type})`;
+        onlineList.appendChild(li);
+    }
+
+    function removeUser(user) {
+        const li = document.getElementById(`user-${user.id}`);
+        if (li){
+        li.remove();
+            }
+        } 
+</script>
 </body>
 </html>

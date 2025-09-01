@@ -82,6 +82,8 @@ $(document).ready(function() {
 </script>
 
 <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  
+
 <script>
     Pusher.logToConsole = true;
 
@@ -114,6 +116,24 @@ $(document).ready(function() {
                 $('#status').html(html);
     });
 
+</script>
+<script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.11.0/dist/echo.iife.js"></script>
+  <script>
+    Pusher.logToConsole = true;
+
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: '{{ env("PUSHER_APP_KEY") }}',
+        cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+        forceTLS: true,
+        authEndpoint: '/broadcasting/auth',
+        auth: {
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            }
+        }
+    });
+     Echo.join('presence-users').here((users) => { console.log(users) });
 </script>
 
 </body>
