@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Order;
 use App\Jobs\ProductImportJob;
+use App\Events\StatusUpdate;
+
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -24,8 +28,9 @@ class AdminController extends Controller
     
     public function orders()
     {
+        $orders = Order::where('customer_id', Auth::id())->with('products')->latest()->paginate(10);
         $PageTitle = 'Orders';
-        return view('admin.pages.orders',compact('PageTitle'));
+        return view('admin.pages.orders',compact('orders','PageTitle'));
     }
     public function complete_orders()
     {
@@ -126,4 +131,17 @@ class AdminController extends Controller
         return back()->with('info','Importing Started please wait, will notify when its done!');
 
     }
+
+    public function updateStatus(Request $request, $id)
+    {
+
+    $order = Order::findOrFail($id);
+    $order->status = $request->status;
+    $order->save();
+
+    broadcast(new StatusUpdate($order))->toOthers();
+
+    return response()->json(['success' => true, 'status' => $order->status]);
+    }
+
 }

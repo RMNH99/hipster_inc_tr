@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>HIPSTER INC TR - {{$PageTitle}}</title>
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -35,7 +36,7 @@
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pusher.min.js') }}"></script>
+    <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
 
     @stack('script')
 
@@ -65,8 +66,8 @@
     <script>
         Pusher.logToConsole = true;
 
-        var pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
-            cluster: "{{ env('PUSHER_APP_CLUSTER') }}",
+        var pusher = new Pusher("b606c3616c71fe4415e4", {
+            cluster: "ap2",
         });
 
         var channel = pusher.subscribe('notifications');
@@ -74,7 +75,7 @@
         channel.bind('new-notification', function(data) {
 
             toastr.success(data.message, 'Success');
-    
+       
         });
 
         

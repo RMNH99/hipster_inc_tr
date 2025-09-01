@@ -29,6 +29,11 @@
             </div>
        
     </div>
+
+    <?php 
+    use Illuminate\Support\Facades\Auth;
+    $customer_id = Auth::guard('customer')->id(); ?>
+
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/popper.min.js') }}"></script>
@@ -73,6 +78,42 @@ $(document).ready(function() {
         $("#count").text(response.count);
     });
 })
+
+</script>
+
+<script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+<script>
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher("b606c3616c71fe4415e4", {
+        cluster: "ap2",
+        authEndpoint: '/broadcasting/auth',
+        auth: {
+             headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+        },
+        withCredentials: true 
+    });
+
+    var channel = pusher.subscribe('private-orders.{{ auth()->guard("customer")->id() }}');
+
+    channel.bind('status.update', function(data) {
+        toastr.success(
+            'Order #' + data.order_id + ' status updated to ' + data.status,
+            'Success'
+        );
+        if(data.status == "Pending"){
+                    html = `<span class="text-secondary">Pending</span>`;
+                }else if(data.status == "Shipped"){
+                     html = `<span class="text-warning">Shipped</span>`;
+                }else{
+                    html = `<span class="text-success">Delivered</span>`;
+                }
+            
+                $('#status').html(html);
+    });
+
 </script>
 
 </body>

@@ -49,6 +49,8 @@ Route::prefix('admin')->name('admin.')->group(function()
         Route::get('/orders',[AdminController::class,'orders'])->name('orders');
         Route::get('/complete_orders',[AdminController::class,'complete_orders'])->name('complete_orders');
 
+        Route::post('/update-status/{order}/', [AdminController::class, 'updateStatus'])->name('updateStatus');
+
         Route::any('/logout',[AdminLoginController::class,'logout'])->name('logout');
        
     });
